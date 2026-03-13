@@ -1,11 +1,124 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import { HiArrowDown } from "react-icons/hi";
 import Image from "next/image";
+
+const PARTICLE_ANGLES = [0, 60, 120, 180, 240, 300];
+
+function MagneticButton({
+  href,
+  children,
+  primary,
+  target,
+  rel,
+}: {
+  href: string;
+  children: React.ReactNode;
+  primary?: boolean;
+  target?: string;
+  rel?: string;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const [firing, setFiring] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    animate(x, (e.clientX - rect.left - rect.width / 2) * 0.3, { type: "spring", stiffness: 500, damping: 35 });
+    animate(y, (e.clientY - rect.top - rect.height / 2) * 0.3, { type: "spring", stiffness: 500, damping: 35 });
+  };
+
+  const handleMouseEnter = () => {
+    setFiring(true);
+    setTimeout(() => setFiring(false), 450);
+  };
+
+  const handleMouseLeave = () => {
+    animate(x, 0, { type: "spring", stiffness: 500, damping: 35 });
+    animate(y, 0, { type: "spring", stiffness: 500, damping: 35 });
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      whileTap={{ scale: 0.88 }}
+      animate={primary ? {
+        boxShadow: [
+          "0 0 10px rgba(0,201,177,0.22), 0 4px 24px rgba(0,0,0,0.3)",
+          "0 0 30px rgba(0,201,177,0.65), 0 4px 24px rgba(0,0,0,0.3)",
+          "0 0 10px rgba(0,201,177,0.22), 0 4px 24px rgba(0,0,0,0.3)",
+        ],
+      } : undefined}
+      transition={primary ? {
+        boxShadow: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+        default: { type: "spring", stiffness: 400, damping: 20 },
+      } : { type: "spring", stiffness: 400, damping: 20 }}
+      style={{
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        padding: primary ? "0.9rem 2rem" : "0.9rem 2rem",
+        borderRadius: "999px",
+        fontWeight: primary ? 800 : 600,
+        fontSize: "1rem",
+        textDecoration: "none",
+        cursor: "pointer",
+        overflow: "visible",
+        backgroundColor: primary ? "#00c9b1" : "transparent",
+        color: primary ? "#0a0a0a" : "#f5f5f5",
+        border: primary ? "none" : "1px solid rgba(245,245,245,0.2)",
+        boxShadow: primary ? "0 0 0 rgba(0,201,177,0)" : "none",
+        x,
+        y,
+      }}
+    >
+      <AnimatePresence>
+        {firing &&
+          PARTICLE_ANGLES.map((angle, i) => (
+            <motion.span
+              key={angle}
+              initial={{ x: 0, y: 0, opacity: 1, scale: 0.6 }}
+              animate={{
+                x: Math.cos((angle * Math.PI) / 180) * 52,
+                y: Math.sin((angle * Math.PI) / 180) * 52,
+                opacity: 0,
+                scale: 1.3,
+              }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.42, delay: i * 0.03, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                marginLeft: "-4px",
+                marginTop: "-4px",
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                backgroundColor: primary ? "#00c9b1" : "rgba(245,245,245,0.7)",
+                pointerEvents: "none",
+                zIndex: 50,
+              }}
+            />
+          ))}
+      </AnimatePresence>
+      {children}
+    </motion.a>
+  );
+}
 
 export default function Hero() {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -145,62 +258,19 @@ export default function Hero() {
           ref={ctaRef}
           style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}
         >
-          <a
+          <MagneticButton
             href="https://wa.me/51970660430?text=Hola%2C%20quiero%20información%20sobre%20las%20clases"
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              backgroundColor: "#00c9b1",
-              color: "#0a0a0a",
-              padding: "0.9rem 2rem",
-              borderRadius: "999px",
-              fontWeight: 800,
-              fontSize: "1rem",
-              textDecoration: "none",
-              transition: "transform 0.2s, box-shadow 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1.05)";
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 30px rgba(0,201,177,0.4)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.transform = "scale(1)";
-              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-            }}
+            primary
           >
             <FaWhatsapp style={{ fontSize: "1.2rem" }} />
             Quiero inscribirme
-          </a>
+          </MagneticButton>
 
-          <a
-            href="#clases"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              border: "1px solid rgba(245,245,245,0.2)",
-              color: "#f5f5f5",
-              padding: "0.9rem 2rem",
-              borderRadius: "999px",
-              fontWeight: 600,
-              fontSize: "1rem",
-              textDecoration: "none",
-              transition: "border-color 0.2s, color 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#00c9b1";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#00c9b1";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(245,245,245,0.2)";
-              (e.currentTarget as HTMLAnchorElement).style.color = "#f5f5f5";
-            }}
-          >
+          <MagneticButton href="#clases">
             Ver clases
-          </a>
+          </MagneticButton>
         </div>
 
         <div

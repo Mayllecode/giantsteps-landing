@@ -211,6 +211,7 @@ export default function Pricing() {
                 href="https://wa.me/51942740632?text=Hola%2C%20quiero%20información%20sobre%20el%20plan"
                 target="_blank"
                 rel="noopener noreferrer"
+                className={plan.highlight ? "btn-glow-pulse" : undefined}
                 style={{
                   display: "flex",
                   alignItems: "center",

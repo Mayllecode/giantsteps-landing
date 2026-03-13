@@ -21,11 +21,33 @@ export default function MarqueeBanner() {
         backgroundColor: "#00c9b1",
         overflow: "hidden",
         padding: "1rem 0",
-        borderTop: "1px solid rgba(0,0,0,0.1)",
-        borderBottom: "1px solid rgba(0,0,0,0.1)",
+        borderTop: "1px solid rgba(0,0,0,0.12)",
+        borderBottom: "1px solid rgba(0,0,0,0.12)",
+        position: "relative",
       }}
     >
-      <div ref={trackRef} className="marquee-track">
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to right, #00c9b1 0%, transparent 8%, transparent 92%, #00c9b1 100%)",
+          zIndex: 2,
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          width: "14%",
+          background: "linear-gradient(to right, transparent, rgba(255,255,255,0.22), transparent)",
+          zIndex: 1,
+          pointerEvents: "none",
+          animation: "marquee-shimmer 4.5s ease-in-out 0.8s infinite",
+        }}
+      />
+      <div ref={trackRef} className="marquee-track" style={{ position: "relative", zIndex: 0 }}>
         {[...styles, ...styles].map((s, i) => (
           <span
             key={i}
@@ -42,7 +64,7 @@ export default function MarqueeBanner() {
             }}
           >
             {s}
-            <span style={{ color: "rgba(0,0,0,0.3)", fontSize: "1.2rem", lineHeight: 0 }}>✦</span>
+            <span style={{ color: "rgba(0,0,0,0.25)", fontSize: "1rem", lineHeight: 0 }}>✦</span>
           </span>
         ))}
       </div>

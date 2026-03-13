@@ -111,26 +111,52 @@ export default function Courses() {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.1, duration: 0.6, ease: "easeOut" }}
-              className="card-hover"
+              whileHover="hovered"
+              variants={{
+                hovered: {
+                  boxShadow: `0 0 0 1px ${course.color}55, 0 20px 50px ${course.color}22`,
+                  y: -5,
+                },
+              }}
               style={{
                 backgroundColor: "#1a1a1a",
                 borderRadius: "16px",
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.06)",
+                cursor: "pointer",
               }}
             >
-              <div style={{ position: "relative", height: "200px" }}>
-                <Image
-                  src={course.image}
-                  alt={course.title}
-                  fill
-                  style={{ objectFit: "cover" }}
+              <div style={{ position: "relative", height: "200px", overflow: "hidden" }}>
+                <motion.div
+                  variants={{ hovered: { scale: 1.08 } }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  style={{ position: "absolute", inset: 0 }}
+                >
+                  <Image
+                    src={course.image}
+                    alt={course.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                </motion.div>
+                <motion.div
+                  variants={{ hovered: { opacity: 1 } }}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: `linear-gradient(155deg, ${course.color}40 0%, transparent 60%)`,
+                    zIndex: 1,
+                    pointerEvents: "none",
+                  }}
                 />
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
                     background: `linear-gradient(to top, rgba(26,26,26,1) 0%, rgba(26,26,26,0.3) 60%, transparent 100%)`,
+                    zIndex: 2,
                   }}
                 />
                 {course.tag && (
@@ -145,6 +171,7 @@ export default function Courses() {
                       borderRadius: "999px",
                       fontSize: "0.75rem",
                       fontWeight: 700,
+                      zIndex: 3,
                     }}
                   >
                     {course.tag}
@@ -159,6 +186,7 @@ export default function Courses() {
                     height: "40px",
                     backgroundColor: course.color,
                     borderRadius: "2px",
+                    zIndex: 3,
                   }}
                 />
               </div>

@@ -101,6 +101,20 @@ body {
   100% { transform: translateX(-50%); }
 }
 
+@keyframes marquee-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(700%); }
+}
+
+@keyframes btn-glow-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,201,177,0.25), 0 4px 24px rgba(0,0,0,0.35); }
+  50% { box-shadow: 0 0 32px rgba(0,201,177,0.68), 0 4px 24px rgba(0,0,0,0.35); }
+}
+
+.btn-glow-pulse {
+  animation: btn-glow-pulse 2.5s ease-in-out infinite;
+}
+
 .noise-bg {
   position: relative;
 }

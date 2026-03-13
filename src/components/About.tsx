@@ -161,9 +161,16 @@ export default function About() {
           initial={{ opacity: 0, scale: 0.92 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.3 }}
+          whileHover="hovered"
           style={{ position: "relative" }}
         >
-          <div
+          <motion.div
+            variants={{
+              hovered: {
+                boxShadow: "0 0 0 2px rgba(0,201,177,0.5), 0 30px 80px rgba(0,201,177,0.18)",
+              },
+            }}
+            transition={{ duration: 0.35 }}
             style={{
               position: "relative",
               borderRadius: "20px",
@@ -171,20 +178,39 @@ export default function About() {
               aspectRatio: "4/5",
             }}
           >
-            <Image
-              src="https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=800&q=80"
-              alt="Clase de baile GiantSteps"
-              fill
-              style={{ objectFit: "cover" }}
+            <motion.div
+              variants={{ hovered: { scale: 1.07 } }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
+              style={{ position: "absolute", inset: 0 }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=800&q=80"
+                alt="Clase de baile GiantSteps"
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </motion.div>
+            <motion.div
+              variants={{ hovered: { opacity: 1 } }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "radial-gradient(ellipse at 60% 30%, rgba(0,201,177,0.18) 0%, transparent 65%)",
+                zIndex: 1,
+                pointerEvents: "none",
+              }}
             />
             <div
               style={{
                 position: "absolute",
                 inset: 0,
                 background: "linear-gradient(to top, rgba(10,10,10,0.6) 0%, transparent 60%)",
+                zIndex: 2,
               }}
             />
-          </div>
+          </motion.div>
           <div
             style={{
               position: "absolute",
