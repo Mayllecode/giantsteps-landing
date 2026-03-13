@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const instructors = [
@@ -11,6 +12,7 @@ const instructors = [
     bio: "Fundadora de GiantSteps Studio con más de 8 años de experiencia formando bailarines. Especialista en técnica sensual y conexión de pareja.",
     gender: "F" as const,
     styles: ["Salsa", "Bachata", "Sensual"],
+    image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=600&q=80",
   },
   {
     name: "Marco Salinas",
@@ -18,6 +20,7 @@ const instructors = [
     bio: "Especialista en estilos urbanos y hip-hop. Ha representado a Perú en competencias internacionales de breaking y street dance.",
     gender: "M" as const,
     styles: ["Hip Hop", "Reggaetón", "Breaking"],
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498?w=600&q=80",
   },
   {
     name: "Andrea Quispe",
@@ -25,6 +28,7 @@ const instructors = [
     bio: "Bailarina formada en el CNEF, se especializa en brindar bases técnicas sólidas que potencian cualquier estilo de baile.",
     gender: "F" as const,
     styles: ["Ballet", "Contemporáneo", "Lyrical"],
+    image: "https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=600&q=80",
   },
   {
     name: "Diego Mamani",
@@ -32,6 +36,7 @@ const instructors = [
     bio: "Pedagogo del movimiento con 5 años dedicados a la formación de pequeños bailarines. Paciente, dinámico y apasionado.",
     gender: "M" as const,
     styles: ["Infantil", "Folclore", "Urbano básico"],
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80",
   },
 ];
 
@@ -91,7 +96,7 @@ export default function Instructors() {
               initial={{ opacity: 0, y: 50 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.12, duration: 0.6, ease: "easeOut" }}
-              className="card-hover"
+              whileHover="hovered"
               style={{
                 backgroundColor: "#1a1a1a",
                 borderRadius: "20px",
@@ -99,92 +104,78 @@ export default function Instructors() {
                 border: "1px solid rgba(255,255,255,0.06)",
               }}
             >
-              <div
+              <motion.div
+                variants={{
+                  hovered: {
+                    boxShadow: "0 0 0 1.5px rgba(0,201,177,0.5), 0 24px 60px rgba(0,201,177,0.15)",
+                  },
+                }}
+                transition={{ duration: 0.3 }}
                 style={{
                   position: "relative",
                   height: "280px",
-                  background: inst.gender === "F"
-                    ? "linear-gradient(135deg, #6a0136 0%, #c2185b 50%, #e91e8c 100%)"
-                    : "linear-gradient(135deg, #0a1628 0%, #0d47a1 50%, #1976d2 100%)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                   overflow: "hidden",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "8rem",
-                    fontWeight: 900,
-                    color: "rgba(255,255,255,0.12)",
-                    userSelect: "none",
-                    lineHeight: 1,
-                    letterSpacing: "-0.05em",
-                  }}
+                <motion.div
+                  variants={{ hovered: { scale: 1.08 } }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  style={{ position: "absolute", inset: 0 }}
                 >
-                  {inst.name.charAt(0)}
-                </span>
-                <div
+                  <Image
+                    src={inst.image}
+                    alt={inst.name}
+                    fill
+                    sizes="300px"
+                    style={{ objectFit: "cover", objectPosition: "center top" }}
+                  />
+                </motion.div>
+                <motion.div
+                  variants={{ hovered: { opacity: 1 } }}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
                   style={{
                     position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: "60%",
-                    background: "linear-gradient(to top, rgba(26,26,26,1) 0%, transparent 100%)",
+                    inset: 0,
+                    background: "radial-gradient(ellipse at 50% 20%, rgba(0,201,177,0.18) 0%, transparent 65%)",
+                    zIndex: 1,
+                    pointerEvents: "none",
                   }}
                 />
                 <div
                   style={{
                     position: "absolute",
-                    bottom: "1.25rem",
-                    left: "1.5rem",
-                    width: "52px",
-                    height: "52px",
-                    borderRadius: "50%",
-                    background: inst.gender === "F"
-                      ? "linear-gradient(135deg, #e91e63, #c2185b)"
-                      : "linear-gradient(135deg, #1976d2, #0d47a1)",
-                    border: "3px solid rgba(255,255,255,0.2)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+                    inset: 0,
+                    background: "linear-gradient(to top, rgba(26,26,26,1) 0%, rgba(26,26,26,0.1) 55%, transparent 100%)",
+                    zIndex: 2,
                   }}
-                >
-                  <span style={{ color: "#fff", fontWeight: 800, fontSize: "1.4rem" }}>
-                    {inst.name.charAt(0)}
-                  </span>
-                </div>
+                />
                 <div
                   style={{
                     position: "absolute",
                     top: "1rem",
                     right: "1rem",
-                    display: "flex",
-                    gap: "0.5rem",
+                    zIndex: 3,
                   }}
                 >
                   <div
                     style={{
-                      backgroundColor: "rgba(0,0,0,0.35)",
+                      backgroundColor: "rgba(0,0,0,0.45)",
                       backdropFilter: "blur(8px)",
-                      border: inst.gender === "F"
-                        ? "1px solid rgba(233,30,99,0.5)"
-                        : "1px solid rgba(25,118,210,0.5)",
+                      border: "1px solid rgba(0,201,177,0.3)",
                       borderRadius: "50%",
                       width: "36px",
                       height: "36px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: inst.gender === "F" ? "#e91e63" : "#42a5f5",
+                      color: "#00c9b1",
                     }}
                   >
                     <FaInstagram style={{ fontSize: "0.9rem" }} />
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               <div style={{ padding: "1.5rem" }}>
                 <h3 style={{ fontWeight: 800, color: "#f5f5f5", fontSize: "1.15rem", marginBottom: "0.2rem" }}>
