@@ -151,7 +151,8 @@ export default function Footer() {
             © {new Date().getFullYear()} GiantSteps Studio. Todos los derechos reservados.
           </p>
           <p style={{ color: "#333", fontSize: "0.75rem" }}>
-            Hecho con pasión en Lima, Perú
+            Desarrollado por{" "}
+            <span style={{ color: "#00c9b1", fontWeight: 700 }}>ELAINE Corp</span>
           </p>
         </div>
       </div>

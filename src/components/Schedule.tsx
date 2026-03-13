@@ -95,11 +95,11 @@ export default function Schedule() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+            gridTemplateColumns: "repeat(4, 1fr)",
             gap: "1.5rem",
           }}
         >
-          {schedule.map((day, i) => (
+          {schedule.filter(d => d.day !== "Sábado").map((day, i) => (
             <motion.div
               key={day.day}
               initial={{ opacity: 0, y: 40 }}
@@ -162,6 +162,77 @@ export default function Schedule() {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Sábado centrado */}
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "1.5rem" }}>
+          {schedule.filter(d => d.day === "Sábado").map((day) => {
+            const i = 4;
+            return (
+              <motion.div
+                key={day.day}
+                initial={{ opacity: 0, y: 40 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                style={{
+                  backgroundColor: "#1a1a1a",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  width: "min(340px, 100%)",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "1rem 1.5rem",
+                    borderBottom: `2px solid ${dayColors[i]}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <h3 style={{ fontWeight: 800, color: "#f5f5f5", fontSize: "1.1rem" }}>{day.day}</h3>
+                  <span
+                    style={{
+                      backgroundColor: `${dayColors[i]}20`,
+                      color: dayColors[i],
+                      padding: "0.2rem 0.6rem",
+                      borderRadius: "999px",
+                      fontSize: "0.72rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {day.classes.length} clases
+                  </span>
+                </div>
+                <div style={{ padding: "1rem 1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {day.classes.map((cls) => (
+                    <div
+                      key={cls.name + cls.time}
+                      style={{
+                        backgroundColor: "rgba(255,255,255,0.03)",
+                        borderRadius: "10px",
+                        padding: "0.9rem",
+                        borderLeft: `3px solid ${dayColors[i]}`,
+                      }}
+                    >
+                      <div style={{ fontWeight: 700, color: "#f5f5f5", fontSize: "0.9rem", marginBottom: "0.4rem" }}>
+                        {cls.name}
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "#888", fontSize: "0.78rem", marginBottom: "0.2rem" }}>
+                        <HiClock />
+                        {cls.time}
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "#888", fontSize: "0.78rem" }}>
+                        <HiLocationMarker style={{ color: dayColors[i] }} />
+                        {cls.location} · {cls.instructor}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         <motion.div
