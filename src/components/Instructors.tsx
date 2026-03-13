@@ -12,7 +12,7 @@ const instructors = [
     bio: "Fundadora de GiantSteps Studio con más de 8 años de experiencia formando bailarines. Especialista en técnica sensual y conexión de pareja.",
     gender: "F" as const,
     styles: ["Salsa", "Bachata", "Sensual"],
-    image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80",
   },
   {
     name: "Marco Salinas",
@@ -20,7 +20,7 @@ const instructors = [
     bio: "Especialista en estilos urbanos y hip-hop. Ha representado a Perú en competencias internacionales de breaking y street dance.",
     gender: "M" as const,
     styles: ["Hip Hop", "Reggaetón", "Breaking"],
-    image: "https://images.unsplash.com/photo-1547153760-18fc86324498?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
   },
   {
     name: "Andrea Quispe",
@@ -28,7 +28,7 @@ const instructors = [
     bio: "Bailarina formada en el CNEF, se especializa en brindar bases técnicas sólidas que potencian cualquier estilo de baile.",
     gender: "F" as const,
     styles: ["Ballet", "Contemporáneo", "Lyrical"],
-    image: "https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80",
   },
   {
     name: "Diego Mamani",
@@ -36,7 +36,7 @@ const instructors = [
     bio: "Pedagogo del movimiento con 5 años dedicados a la formación de pequeños bailarines. Paciente, dinámico y apasionado.",
     gender: "M" as const,
     styles: ["Infantil", "Folclore", "Urbano básico"],
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80",
   },
 ];
 
